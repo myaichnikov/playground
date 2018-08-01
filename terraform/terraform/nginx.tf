@@ -28,9 +28,13 @@ resource "kubernetes_service" "nginx" {
     }
     port {
       port = 80
-      node_port = 31101
+      target_port = 80
     }
 
-    type = "NodePort"
+    type = "LoadBalancer"
   }
+}
+
+output "lb_ip" {
+  value = "${kubernetes_service.nginx.load_balancer_ingress.0.ip}"
 }
